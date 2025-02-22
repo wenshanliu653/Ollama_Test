@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, text
 import os
 
 # 設置 Google API 密鑰
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAQRSfsC8HJCRX7rAbLQC2eKqO0HpQUB1g"
+os.environ["GOOGLE_API_KEY"] = "API_KEY"
 
 class GeminiSQLQueryTool:
     def __init__(self, db_url):
