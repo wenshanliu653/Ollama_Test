@@ -2,7 +2,7 @@ from langchain_community.llms import Ollama
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain_community.utilities import SQLDatabase
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS # 向量存儲 DB
 from langchain.chains import ConversationalRetrievalChain
 import mysql.connector
 from mysql.connector import Error
@@ -133,14 +133,14 @@ class OllamaSQLQueryTool:
     def query(self, question):
             try:
                 relevant_docs = self.vector_store.similarity_search(question, k=3)
-                context = "\n".join([doc.page_content for doc in relevant_docs])
-                
-                enhanced_question = f"""基於以下數據庫結構信息：
-    {context}
+                context = "\n".join([doc.page_content for doc in relevant_docs]) 
+                # 提示工程 :提高準確度
+                enhanced_question = f"""基於以下數據庫結構信息： 
+    {context} 
 
     請幫我將這個問題轉換為 SQL 查詢："{question}"
 
-    請注意：
+    請注意： 
     1. 使用準確的表名和列名
     2. 考慮表之間的關係
     3. 確保 SQL 語法正確
@@ -226,12 +226,12 @@ if __name__ == "__main__":
         )
         
         # 測試查詢
-        result = sql_tool.query("How many orders are there?") 
+        result = sql_tool.query("How many orders are there?")  # Ans:2823
         print(result)
 
         sleep(10)
         # 測試查詢
-        result2 = sql_tool.query(f"How many orders are from customer 'Land of Toys Inc.'?") # 這個問題會報錯
+        result2 = sql_tool.query(f"How many orders are from customer 'Land of Toys Inc.'?") # 49
         print(result2)
 
         # 測試查詢
